@@ -9,11 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as InvoiceRouteImport } from './routes/invoice'
+import { Route as CareTasksCalendarRouteImport } from './routes/care-tasks-calendar'
 import { Route as CareTasksRouteImport } from './routes/care-tasks'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlantsAddRouteImport } from './routes/plants.add'
 
+const InvoiceRoute = InvoiceRouteImport.update({
+  id: '/invoice',
+  path: '/invoice',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareTasksCalendarRoute = CareTasksCalendarRouteImport.update({
+  id: '/care-tasks-calendar',
+  path: '/care-tasks-calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CareTasksRoute = CareTasksRouteImport.update({
   id: '/care-tasks',
   path: '/care-tasks',
@@ -39,12 +51,16 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/care-tasks': typeof CareTasksRoute
+  '/care-tasks-calendar': typeof CareTasksCalendarRoute
+  '/invoice': typeof InvoiceRoute
   '/plants/add': typeof PlantsAddRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/care-tasks': typeof CareTasksRoute
+  '/care-tasks-calendar': typeof CareTasksCalendarRoute
+  '/invoice': typeof InvoiceRoute
   '/plants/add': typeof PlantsAddRoute
 }
 export interface FileRoutesById {
@@ -52,25 +68,62 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/care-tasks': typeof CareTasksRoute
+  '/care-tasks-calendar': typeof CareTasksCalendarRoute
+  '/invoice': typeof InvoiceRoute
   '/plants/add': typeof PlantsAddRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/care-tasks' | '/plants/add'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/care-tasks'
+    | '/care-tasks-calendar'
+    | '/invoice'
+    | '/plants/add'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/care-tasks' | '/plants/add'
-  id: '__root__' | '/' | '/about' | '/care-tasks' | '/plants/add'
+  to:
+    | '/'
+    | '/about'
+    | '/care-tasks'
+    | '/care-tasks-calendar'
+    | '/invoice'
+    | '/plants/add'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/care-tasks'
+    | '/care-tasks-calendar'
+    | '/invoice'
+    | '/plants/add'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CareTasksRoute: typeof CareTasksRoute
+  CareTasksCalendarRoute: typeof CareTasksCalendarRoute
+  InvoiceRoute: typeof InvoiceRoute
   PlantsAddRoute: typeof PlantsAddRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/invoice': {
+      id: '/invoice'
+      path: '/invoice'
+      fullPath: '/invoice'
+      preLoaderRoute: typeof InvoiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/care-tasks-calendar': {
+      id: '/care-tasks-calendar'
+      path: '/care-tasks-calendar'
+      fullPath: '/care-tasks-calendar'
+      preLoaderRoute: typeof CareTasksCalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/care-tasks': {
       id: '/care-tasks'
       path: '/care-tasks'
@@ -106,6 +159,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CareTasksRoute: CareTasksRoute,
+  CareTasksCalendarRoute: CareTasksCalendarRoute,
+  InvoiceRoute: InvoiceRoute,
   PlantsAddRoute: PlantsAddRoute,
 }
 export const routeTree = rootRouteImport

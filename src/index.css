@@ -90,7 +90,7 @@ a {
 }
 
 button.primary {
-  @apply rounded-lg bg-green-600 px-4 py-2 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-green-700 hover:shadow-lg disabled:opacity-50 disabled:hover:shadow-none disabled:hover:bg-green-600  disabled:cursor-default;
+  @apply rounded-lg bg-green-600 px-4 py-2 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-green-700 hover:shadow-lg disabled:cursor-default disabled:opacity-50 disabled:hover:bg-green-600 disabled:hover:shadow-none;
 }
 
 button.secondary {
@@ -126,7 +126,7 @@ button.secondary {
   @apply rounded-lg bg-gray-200 px-4 py-2 font-semibold text-gray-800 transition-colors duration-200 hover:bg-gray-300;
 }
 
-/* Plant List Styles */
+/* PlantDto List Styles */
 .plant-list-container {
   @apply space-y-6;
 }
@@ -159,7 +159,7 @@ button.secondary {
   @apply border-green-600 bg-green-600 text-white;
 }
 
-/* Plant Table Styles */
+/* PlantDto Table Styles */
 .plant-table-container {
   @apply overflow-hidden overflow-x-auto rounded-lg bg-white shadow-md;
 }
@@ -268,7 +268,7 @@ button.secondary {
   @apply text-sm text-gray-600;
 }
 
-/* Plant Detail Styles */
+/* PlantDto Detail Styles */
 .plant-detail-container {
   @apply space-y-6;
 }

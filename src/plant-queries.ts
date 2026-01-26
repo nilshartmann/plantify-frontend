@@ -3,9 +3,33 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import ky from "ky";
+import _ky from "ky";
 
-import { CareTask, NewPlantRequest, Plant } from "./types";
+import { CareTaskDto, NewPlantRequest, OwnerDto, PlantDto } from "./types";
+
+const ky = _ky.extend({
+  retry: 0,
+});
+
+export const ownerQueries = {
+  all: () => ["owners"] as const,
+  list: () =>
+    queryOptions({
+      queryKey: ownerQueries.all(),
+      queryFn: async () => {
+        const response = await ky.get("/api/owners").json();
+        return OwnerDto.array().parse(response);
+      },
+    }),
+  detail: (id: string) =>
+    queryOptions({
+      queryKey: [...ownerQueries.all(), id] as const,
+      queryFn: async () => {
+        const response = await ky.get(`/api/owners/${id}`).json();
+        return OwnerDto.parse(response);
+      },
+    }),
+};
 
 export const plantQueries = {
   all: () => ["plants"] as const,
@@ -15,9 +39,17 @@ export const plantQueries = {
       queryKey: plantQueries.lists(),
       queryFn: async () => {
         const response = await ky.get("/api/plants").json();
-        return Plant.array().parse(response);
+        return PlantDto.array().parse(response);
       },
       retry: false,
+    }),
+  detail: (id: string) =>
+    queryOptions({
+      queryKey: [...plantQueries.all(), id] as const,
+      queryFn: async () => {
+        const response = await ky.get(`/api/plants/${id}`).json();
+        return PlantDto.parse(response);
+      },
     }),
 };
 
@@ -28,7 +60,7 @@ export const careTaskQueries = {
       queryKey: careTaskQueries.all(),
       queryFn: async () => {
         const response = await ky.get("/api/care-tasks").json();
-        return CareTask.array().parse(response);
+        return CareTaskDto.array().parse(response);
       },
     }),
 };
@@ -55,6 +87,15 @@ export function useCompleteCareTaskMutation() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: careTaskQueries.all() });
+    },
+  });
+}
+
+export function useTimeMachineMutation() {
+  return useMutation({
+    mutationFn: async (shiftBy: number) => {
+      const response = await ky.post(`/api/timemachine/${shiftBy}`).text();
+      return response;
     },
   });
 }

@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 
-import { useAddPlantMutation } from "../plant-queries";
+import { ownerQueries, useAddPlantMutation } from "../plant-queries";
 import { NewPlantRequest, PlantType } from "../types";
 
 export const Route = createFileRoute("/plants/add")({
@@ -11,6 +12,13 @@ export const Route = createFileRoute("/plants/add")({
 
 function AddPlantComponent() {
   const navigate = useNavigate();
+  const {
+    data: owners,
+    isLoading: isLoadingOwners,
+    error,
+  } = useQuery(ownerQueries.list());
+
+  console.log("Could not load owner", error);
 
   const {
     register,
@@ -20,6 +28,7 @@ function AddPlantComponent() {
   } = useForm<NewPlantRequest>({
     resolver: zodResolver(NewPlantRequest),
     defaultValues: {
+      ownerId: "" as any,
       plantType: "INDOOR",
     },
   });
@@ -40,20 +49,22 @@ function AddPlantComponent() {
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-md space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Owner ID (UUID)
+            Owner
           </label>
-          <input
+          <select
             {...register("ownerId")}
-            className="mt-1 block w-full rounded border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            placeholder="z.B. 550e8400-e29b-41d4-a716-446655440000"
-          />
-          <button
-            type="button"
-            onClick={() => setValue("ownerId", crypto.randomUUID())}
-            className="mt-1 text-xs text-blue-600 hover:text-blue-800 hover:underline"
+            disabled={isLoadingOwners}
+            className="mt-1 block w-full rounded border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:bg-gray-100"
           >
-            UUID generieren
-          </button>
+            <option value="">
+              {isLoadingOwners ? "Lade Owner..." : "Owner auswählen..."}
+            </option>
+            {owners?.map((owner) => (
+              <option key={owner.id} value={owner.id}>
+                {owner.name}
+              </option>
+            ))}
+          </select>
           {errors.ownerId && (
             <p className="mt-1 text-sm text-red-600">
               {errors.ownerId.message}

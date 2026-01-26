@@ -12,7 +12,7 @@ export const PlantType = z.enum([
 export type PlantType = z.infer<typeof PlantType>;
 
 export const NewPlantRequest = z.object({
-  ownerId: z.uuid(),
+  ownerId: z.string(),
   name: z.string().min(1),
   plantType: PlantType,
   location: z.string().min(1),
@@ -20,15 +20,14 @@ export const NewPlantRequest = z.object({
 
 export type NewPlantRequest = z.infer<typeof NewPlantRequest>;
 
-export const Plant = z.object({
-  id: z.uuid(),
+export const PlantDto = z.object({
+  id: z.string(),
+  ownerId: z.string(),
   name: z.string().min(1),
   location: z.string().min(1),
-  wateringInterval: z.number().min(1),
-  lastWatered: z.string().optional(),
 });
 
-export type Plant = z.infer<typeof Plant>;
+export type PlantDto = z.infer<typeof PlantDto>;
 
 export const CareTaskType = z.enum([
   "WATERING",
@@ -40,14 +39,22 @@ export const CareTaskType = z.enum([
 
 export const CareTaskSource = z.enum(["SYSTEM", "EXPERT"]);
 
-export const CareTask = z.object({
-  id: z.uuid(),
-  plantId: z.uuid(),
+export const CareTaskDto = z.object({
+  id: z.string(),
+  plantId: z.string(),
   type: CareTaskType,
   source: CareTaskSource,
   nextDueDate: z.string(), // ISO Date string
   recurring: z.boolean(),
+  interval: z.number().nullable().optional(),
   active: z.boolean(),
 });
 
-export type CareTask = z.infer<typeof CareTask>;
+export type CareTaskDto = z.infer<typeof CareTaskDto>;
+
+export const OwnerDto = z.object({
+  id: z.string(),
+  name: z.string().min(1),
+});
+
+export type OwnerDto = z.infer<typeof OwnerDto>;

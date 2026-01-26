@@ -12,6 +12,7 @@ export const createQueryClient = () => {
         refetchOnMount: true, // true ist der Default
         refetchIntervalInBackground: false,
         refetchOnWindowFocus: false,
+        retry: false,
       },
     },
   });
