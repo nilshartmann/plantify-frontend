@@ -1,5 +1,6 @@
 /// <reference types="vitest/config" />
 import tailwindcss from "@tailwindcss/vite";
+import tanstackRouter from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vite";
@@ -7,10 +8,21 @@ import { defineConfig } from "vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    tanstackRouter({
+      target: "react",
+      autoCodeSplitting: true,
+    }),
     // https://tailwindcss.com/docs/installation/using-vite
     tailwindcss(),
     react(),
   ],
+  server: {
+    host: "0.0.0.0",
+    port: 9080,
+    proxy: {
+      "/api": "http://localhost:8080",
+    },
+  },
   test: {
     projects: [
       {
