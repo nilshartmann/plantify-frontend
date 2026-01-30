@@ -50,7 +50,7 @@ function CareTaskItem({ task }: { task: ProjectedCareTask }) {
 
   return (
     <div
-      className={`flex items-center justify-between rounded border p-4 shadow-sm ${
+      className={`flex items-start justify-between rounded border p-4 shadow-sm ${
         task.isProjected
           ? "border-dashed border-gray-300 bg-gray-50 opacity-80"
           : "bg-white"
@@ -78,19 +78,21 @@ function CareTaskItem({ task }: { task: ProjectedCareTask }) {
       {!task.isProjected && (
         <div className="flex flex-col items-end gap-2">
           {!task.active && !task.recurring && (
-            <span className="rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
-              Erledigt
+            <span className="rounded bg-green-600 px-3.5 py-1.5 text-xs font-medium text-white">
+              ✅ Erledigt
             </span>
           )}
-          <button
-            onClick={() => completeMutation.mutate(task.id)}
-            disabled={completeMutation.isPending || !task.active}
-            className="primary"
-          >
-            {completeMutation.isPending
-              ? "Lädt..."
-              : "Ausführung protokollieren"}
-          </button>
+          {task.active && (
+            <button
+              onClick={() => completeMutation.mutate(task.id)}
+              disabled={completeMutation.isPending || !task.active}
+              className="primary"
+            >
+              {completeMutation.isPending
+                ? "Lädt..."
+                : "Ausführung protokollieren"}
+            </button>
+          )}
         </div>
       )}
     </div>

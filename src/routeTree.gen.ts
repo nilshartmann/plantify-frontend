@@ -11,8 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as InvoiceRouteImport } from './routes/invoice'
 import { Route as CareTasksCalendarRouteImport } from './routes/care-tasks-calendar'
-import { Route as CareTasksRouteImport } from './routes/care-tasks'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlantsAddRouteImport } from './routes/plants.add'
 
@@ -24,16 +22,6 @@ const InvoiceRoute = InvoiceRouteImport.update({
 const CareTasksCalendarRoute = CareTasksCalendarRouteImport.update({
   id: '/care-tasks-calendar',
   path: '/care-tasks-calendar',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CareTasksRoute = CareTasksRouteImport.update({
-  id: '/care-tasks',
-  path: '/care-tasks',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -49,16 +37,12 @@ const PlantsAddRoute = PlantsAddRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/care-tasks': typeof CareTasksRoute
   '/care-tasks-calendar': typeof CareTasksCalendarRoute
   '/invoice': typeof InvoiceRoute
   '/plants/add': typeof PlantsAddRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/care-tasks': typeof CareTasksRoute
   '/care-tasks-calendar': typeof CareTasksCalendarRoute
   '/invoice': typeof InvoiceRoute
   '/plants/add': typeof PlantsAddRoute
@@ -66,43 +50,20 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/care-tasks': typeof CareTasksRoute
   '/care-tasks-calendar': typeof CareTasksCalendarRoute
   '/invoice': typeof InvoiceRoute
   '/plants/add': typeof PlantsAddRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/about'
-    | '/care-tasks'
-    | '/care-tasks-calendar'
-    | '/invoice'
-    | '/plants/add'
+  fullPaths: '/' | '/care-tasks-calendar' | '/invoice' | '/plants/add'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/about'
-    | '/care-tasks'
-    | '/care-tasks-calendar'
-    | '/invoice'
-    | '/plants/add'
-  id:
-    | '__root__'
-    | '/'
-    | '/about'
-    | '/care-tasks'
-    | '/care-tasks-calendar'
-    | '/invoice'
-    | '/plants/add'
+  to: '/' | '/care-tasks-calendar' | '/invoice' | '/plants/add'
+  id: '__root__' | '/' | '/care-tasks-calendar' | '/invoice' | '/plants/add'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
-  CareTasksRoute: typeof CareTasksRoute
   CareTasksCalendarRoute: typeof CareTasksCalendarRoute
   InvoiceRoute: typeof InvoiceRoute
   PlantsAddRoute: typeof PlantsAddRoute
@@ -124,20 +85,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareTasksCalendarRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/care-tasks': {
-      id: '/care-tasks'
-      path: '/care-tasks'
-      fullPath: '/care-tasks'
-      preLoaderRoute: typeof CareTasksRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -157,8 +104,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
-  CareTasksRoute: CareTasksRoute,
   CareTasksCalendarRoute: CareTasksCalendarRoute,
   InvoiceRoute: InvoiceRoute,
   PlantsAddRoute: PlantsAddRoute,

@@ -6,21 +6,15 @@ const RootLayout = () => (
       <Link to="/" className="[&.active]:font-bold">
         Home
       </Link>{" "}
-      <Link to="/care-tasks" className="[&.active]:font-bold">
-        Care Tasks
+      <Link to="/plants/add" className="[&.active]:font-bold">
+        Pflanzenverwaltung
       </Link>{" "}
       <Link to="/care-tasks-calendar" className="[&.active]:font-bold">
-        Kalender
+        Aufgaben
       </Link>{" "}
       <Link to="/invoice" className="[&.active]:font-bold">
         Rechnung
       </Link>{" "}
-      <Link to="/plants/add" className="[&.active]:font-bold">
-        Add Plant
-      </Link>{" "}
-      <Link to="/about" className="[&.active]:font-bold">
-        About
-      </Link>
     </div>
     <div>
       <Outlet />
