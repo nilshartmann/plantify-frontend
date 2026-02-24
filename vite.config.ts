@@ -5,6 +5,10 @@ import react from "@vitejs/plugin-react";
 import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vite";
 
+const BACKEND_URL = "http://localhost:8180";
+
+console.log(` 🌱 Using Backend at ${BACKEND_URL}`);
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
@@ -20,7 +24,7 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 9080,
     proxy: {
-      "/api": "http://localhost:8080",
+      "/api": BACKEND_URL,
     },
   },
   test: {
